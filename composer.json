@@ -1,0 +1,12 @@
+{
+    "name": "padrian/phpco2footprint",
+    "description": "A PHP application for tracking carbon footprint.",
+    "type": "project",
+    "require": {},
+    "autoload":{
+        "psr-4": {
+            "Framework\\": "src/Framework",
+            "App\\": "src/App"
+        }
+    }
+}
