@@ -20,7 +20,7 @@
             <!-- Navigation Links -->
             <div class="flex lg:gap-x-10">
                 <a href="/about" class="text-gray-300 hover:text-white transition">About</a>
-                <a href="/about" class="text-gray-300 hover:text-white transition">Dashboard</a>
+                <a href="/dashboard" class="text-gray-300 hover:text-white transition">Dashboard</a>
                 <a href="/login" class="text-gray-300 hover:text-white transition">Login</a>
                 <a href="/register" class="text-gray-300 hover:text-white transition">Register</a>
                 <a href="/logout" class="text-gray-300 hover:text-white transition">
