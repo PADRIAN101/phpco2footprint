@@ -6,7 +6,12 @@ namespace Framework;
 
 class Router
 {
+    #To store routes
     private array $routes = [];
+
+    #To store middlewares
+    private array $middlewares = [];
+
 
     public function add(string $method, string $path, array $controller)
     {
@@ -45,7 +50,23 @@ class Router
             $controllerInstance = $container ?
                 $container->resolve($class) : new $class;
 
-            $controllerInstance->{$function}();
+            #looping through middleware    
+            $action = fn() => $controllerInstance->{$function}();
+
+            foreach ($this->middlewares as $middleware) {
+                $middlewareInstance = $container ? $container->resolve($middleware) : new $middleware;
+                $action = fn() => $middlewareInstance->process($action);
+            }
+
+            $action();
+
+            return;
         }
+    }
+
+    #Method to add new middleware
+    public function addMiddleware(string $middleware)
+    {
+        $this->middlewares[] = $middleware;
     }
 }

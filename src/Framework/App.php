@@ -33,4 +33,11 @@ class App
     {
         $this->router->add('GET', $path, $controller);
     }
+
+    #To add middleware to the router
+    public function addMiddleware(string $middleware)
+    {
+
+        $this->router->addMiddleware($middleware);
+    }
 }
