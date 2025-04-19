@@ -29,9 +29,16 @@ class App
         $this->router->dispatch($path, $method, $this->container);
     }
 
+    #Get function
     public function get(string $path, array $controller)
     {
         $this->router->add('GET', $path, $controller);
+    }
+
+    #post function
+    public function post(string $path, array $controller)
+    {
+        $this->router->add('POST', $path, $controller);
     }
 
     #To add middleware to the router
