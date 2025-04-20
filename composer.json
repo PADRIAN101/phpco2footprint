@@ -12,5 +12,11 @@
             "src/App/Config/Routes.php",
             "src/App/Config/Middleware.php"
         ]
+    },
+
+    "scripts": {
+        "phpco2footprint": "php cli.php"
+
     }
+
 }
