@@ -5,7 +5,7 @@
         <!-- Email -->
         <label class="block">
             <span class="text-gray-700">Email address</span>
-            <input name="email" type="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="john@example.com" />
+            <input value="<?php echo e($oldFormData['email'] ?? ''); ?>" name="email" type="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="john@example.com" />
             <?php if (array_key_exists('email', $errors)) : ?>
                 <div class="bg-gray-100 mt-2 p-2 text-red-500">
                     <?php echo e($errors['email'][0]); ?>
@@ -16,7 +16,8 @@
         <label class="block">
             <span class="text-gray-700">Age</span>
             <input
-                name="age"
+                value="<?php echo e($oldFormData['age'] ?? ''); ?>"
+                name=" age"
                 type="number"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 placeholder="" />
@@ -35,7 +36,6 @@
                 <option value="Canada">Canada</option>
                 <option value="USA">USA</option>
                 <option value="Mexico">Mexico</option>
-                <option value="Invalid">Invalid Country</option>
             </select>
             <?php if (array_key_exists('country', $errors)) : ?>
                 <div class="bg-gray-100 mt-2 p-2 text-red-500">
@@ -76,7 +76,7 @@
             <div class="mt-2">
                 <div>
                     <label class="inline-flex items-center">
-                        <input
+                        <input <?php echo $oldFormData['tos'] ?? false ? 'checked' : ''; ?>
                             name="tos"
                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
                             type="checkbox" />
