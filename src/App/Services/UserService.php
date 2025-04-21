@@ -30,6 +30,7 @@ class UserService
     public function create(array $formData)
     {
 
+        #to hash passwords using bcrypt function
         $password = password_hash($formData['password'], PASSWORD_BCRYPT, ['cost' => 12]);
 
         $this->db->query(
@@ -42,11 +43,16 @@ class UserService
                 'age' => $formData['age']
             ]
         );
+
+        session_regenerate_id();
+
+        $_SESSION['user'] = $this->db->id();
     }
 
     public function login(array $formData)
     {
 
+        #validate log-in
         $user = $this->db->query("SELECT * FROM users WHERE email = :email", [
             'email' => $formData['email']
 
@@ -61,6 +67,17 @@ class UserService
             throw new ValidationException(['password' => ['Invalid email or password']]);
         }
 
+        #securing session id to change upon log-in
+        session_regenerate_id();
+
         $_SESSION['user'] = $user['id'];
+    }
+
+    #Logout method to destroy session and creating new session
+    public function logout()
+    {
+        unset($_SESSION['user']);
+
+        session_regenerate_id();
     }
 }

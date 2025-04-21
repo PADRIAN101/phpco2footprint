@@ -30,21 +30,29 @@ class App
     }
 
     #Get function
-    public function get(string $path, array $controller)
+    public function get(string $path, array $controller): App
     {
         $this->router->add('GET', $path, $controller);
+
+        return $this;
     }
 
     #post function
-    public function post(string $path, array $controller)
+    public function post(string $path, array $controller): App
     {
         $this->router->add('POST', $path, $controller);
+
+        return $this;
     }
 
     #To add middleware to the router
     public function addMiddleware(string $middleware)
     {
-
         $this->router->addMiddleware($middleware);
+    }
+
+    public function add(string $middleware)
+    {
+        $this->router->addRouteMiddleware($middleware);
     }
 }
