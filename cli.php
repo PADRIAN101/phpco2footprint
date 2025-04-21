@@ -1,21 +1,20 @@
 <?php
 
-$driver = 'mysql';
+include __DIR__ . '/src/Framework/Database.php';
 
-$config = http_build_query(data: [
-    'host' => 'localhost',
-    'port' => 3306,
-    'dbname' => 'phpco2footprint'
-], arg_separator: ';');
+use Framework\Database;
 
-$dsn = "{$driver}:{$config}";
-$username = 'root';
-$password = '';
+$db = new Database(
+    'mysql',
+    [
+        'host' => 'localhost',
+        'port' => 3306,
+        'dbname' => 'phpco2footprint'
+    ],
+    'root',
+    ''
+);
 
-try {
-    $db = new PDO($dsn, $username, $password);
-} catch (PDOException $e) {
-    die("Unable to connect to database");
-}
+$sqlFile = file_get_contents("./database.sql");
 
-echo "Connected to database";
+$db->query($sqlFile);
