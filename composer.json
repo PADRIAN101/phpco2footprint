@@ -2,7 +2,9 @@
     "name": "padrian/phpco2footprint",
     "description": "A PHP application for tracking carbon footprint.",
     "type": "project",
-    "require": {},
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    },
     "autoload":{
         "psr-4": {
             "Framework\\": "src/Framework",
