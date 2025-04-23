@@ -34,9 +34,6 @@
             <select name="country"
                 class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 <option value="Philippines">Philippines</option>
-                <option value="Canada">Canada</option>
-                <option value="USA">USA</option>
-                <option value="Mexico">Mexico</option>
             </select>
             <?php if (array_key_exists('country', $errors)) : ?>
                 <div class="bg-gray-100 mt-2 p-2 text-red-500">
