@@ -33,7 +33,7 @@
                     Category
                 </th>
                 <th class="p-4 text-left text-sm font-semibold text-gray-900">
-                    Energy Usage
+                    Usage
                 </th>
                 <th class="p-4 text-left text-sm font-semibold text-gray-900">
                     Emissions (tCO2e)
