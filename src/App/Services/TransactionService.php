@@ -27,8 +27,16 @@ class TransactionService
         );
     }
 
-    public function getUserTransactions()
+    public function getUserTransactions(int $length, int $offset)
     {
+        #To escape special characters upon search 
+        $searchTerm = addcslashes($_GET['s'] ?? '', '%_');
+        $params = [
+            'user_id' => $_SESSION['user'],
+            'category' => "%{$searchTerm}%",
+            'description' => "%{$searchTerm}%"
+        ];
+
         $transactions = $this->db->query(
             "SELECT *, 
                 DATE_FORMAT(date, '%Y-%m-%d') as formatted_date,
@@ -40,10 +48,27 @@ class TransactionService
                     ELSE 0
                 END as converted_emission
             FROM transactions 
-            WHERE user_id = :user_id",
-            ['user_id' => $_SESSION['user']]
+            WHERE user_id = :user_id 
+            AND (category LIKE :category OR description LIKE :description)
+            LIMIT {$length} OFFSET {$offset}",
+            $params
+
         )->findAll();
 
-        return $transactions;
+        $transactionCount = $this->db->query(
+            "SELECT COUNT(*)
+            FROM transactions 
+            WHERE user_id = :user_id 
+            AND (category LIKE :category OR description LIKE :description)",
+            $params
+        )->count();
+
+
+
+
+
+
+
+        return [$transactions, $transactionCount];
     }
 }
