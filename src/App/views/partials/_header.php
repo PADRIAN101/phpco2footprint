@@ -20,6 +20,7 @@
             <!-- Navigation Links -->
             <div class="flex lg:gap-x-10">
                 <a href="/about" class="text-gray-300 hover:text-white transition">About</a>
+                <a href="/greenoption" class="text-gray-300 hover:text-white transition">Green Options</a>
                 <a href="/dashboard" class="text-gray-300 hover:text-white transition">Dashboard</a>
                 <?php if (isset($_SESSION['user'])) : ?>
                     <a href="/logout" class="text-gray-300 hover:text-white transition">
