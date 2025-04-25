@@ -16,7 +16,7 @@ class TransactionService
 
         $this->db->query(
             "INSERT INTO transactions(user_id, description, emission, category, date)
-        VALUES(:user_id, :description, :emission, :category, :date)",
+             VALUES(:user_id, :description, :emission, :category, :date)",
             [
                 'user_id' => $_SESSION['user'],
                 'description' => $formData['description'],
@@ -27,9 +27,8 @@ class TransactionService
         );
     }
 
-    public function getUserTransactions(int $length, int $offset)
+    public function getUserTransactions(int $length, int $offset, ?string $startDate = null, ?string $endDate = null)
     {
-        #To escape special characters upon search 
         $searchTerm = addcslashes($_GET['s'] ?? '', '%_');
         $params = [
             'user_id' => $_SESSION['user'],
@@ -37,8 +36,8 @@ class TransactionService
             'description' => "%{$searchTerm}%"
         ];
 
-        $transactions = $this->db->query(
-            "SELECT *, 
+        $sql = "
+            SELECT *, 
                 DATE_FORMAT(date, '%Y-%m-%d') as formatted_date,
                 CASE 
                     WHEN category = 'Electricity' THEN emission * 0.25
@@ -50,18 +49,38 @@ class TransactionService
             FROM transactions 
             WHERE user_id = :user_id 
             AND (category LIKE :category OR description LIKE :description)
-            LIMIT {$length} OFFSET {$offset}",
-            $params
+        ";
 
-        )->findAll();
+        if ($startDate) {
+            $sql .= " AND date >= :start_date";
+            $params['start_date'] = "{$startDate} 00:00:00";
+        }
 
-        $transactionCount = $this->db->query(
-            "SELECT COUNT(*)
-            FROM transactions 
+        if ($endDate) {
+            $sql .= " AND date <= :end_date";
+            $params['end_date'] = "{$endDate} 23:59:59";
+        }
+
+        $sql .= " LIMIT {$length} OFFSET {$offset}";
+
+        $transactions = $this->db->query($sql, $params)->findAll();
+
+        // Count query with same filters
+        $countSql = "
+            SELECT COUNT(*) FROM transactions 
             WHERE user_id = :user_id 
-            AND (category LIKE :category OR description LIKE :description)",
-            $params
-        )->count();
+            AND (category LIKE :category OR description LIKE :description)
+        ";
+
+        if ($startDate) {
+            $countSql .= " AND date >= :start_date";
+        }
+
+        if ($endDate) {
+            $countSql .= " AND date <= :end_date";
+        }
+
+        $transactionCount = $this->db->query($countSql, $params)->count();
 
         return [$transactions, $transactionCount];
     }
@@ -70,8 +89,8 @@ class TransactionService
     {
         return $this->db->query(
             "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') as formatted_date
-        FROM transactions 
-        WHERE id = :id AND user_id = :user_id",
+             FROM transactions 
+             WHERE id = :id AND user_id = :user_id",
             [
                 'id' => $id,
                 'user_id' => $_SESSION['user']
@@ -85,9 +104,8 @@ class TransactionService
 
         $this->db->query(
             "UPDATE transactions
-            SET description = :description, emission = :emission, date = :date, category = :category 
-            WHERE id = :id
-            AND user_id = :user_id",
+             SET description = :description, emission = :emission, date = :date, category = :category 
+             WHERE id = :id AND user_id = :user_id",
             [
                 'description' => $formData['description'],
                 'emission' => $formData['emission'],
