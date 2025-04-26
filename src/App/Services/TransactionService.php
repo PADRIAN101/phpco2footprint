@@ -40,10 +40,10 @@ class TransactionService
             SELECT *, 
                 DATE_FORMAT(date, '%Y-%m-%d') as formatted_date,
                 CASE 
-                    WHEN category = 'Electricity' THEN emission * 0.25
-                    WHEN category = 'Public Transportation' THEN emission * 0.5
-                    WHEN category = 'Fuel' THEN emission * 1.20
-                    WHEN category = 'Flights' THEN emission * 5.5
+                    WHEN category = 'Electricity' THEN emission * 0.20493
+                    WHEN category = 'Public Transportation' THEN emission * 0.05115
+                    WHEN category = 'Fuel' THEN emission * 2.57089
+                    WHEN category = 'Flights' THEN emission * 0.27101
                     ELSE 0
                 END as converted_emission
             FROM transactions 

@@ -36,7 +36,7 @@
                     Usage
                 </th>
                 <th class="p-4 text-left text-sm font-semibold text-gray-900">
-                    Emissions (tCO2e)
+                    Emissions (kgCO2e)
                 </th>
                 <th class="p-4 text-left text-sm font-semibold text-gray-900">
                     Description
