@@ -6,7 +6,7 @@ namespace App\Config;
 
 
 use Framework\App;
-use App\Controllers\{HomeController, AboutController, DashboardController, GreenOptionsController, AuthController, TransactionController};
+use App\Controllers\{HomeController, AboutController, DashboardController, GreenOptionsController, AuthController, TransactionController, ErrorController};
 use App\Middleware\{AuthRequiredMiddleware, GuestOnlyMiddleware};
 
 
@@ -28,4 +28,5 @@ function registerRoutes(App $app)
     $app->get('/transaction/{transaction}', [TransactionController::class, 'editView'])->add(AuthRequiredMiddleware::class);
     $app->post('/transaction/{transaction}', [TransactionController::class, 'edit'])->add(AuthRequiredMiddleware::class);
     $app->delete('/transaction/{transaction}', [TransactionController::class, 'delete'])->add(AuthRequiredMiddleware::class);
+    $app->setErrorHandler([ErrorController::class, 'notFound']);
 }
